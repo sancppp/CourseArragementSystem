@@ -3,7 +3,6 @@ package controller
 import (
 	"CAS/response"
 	"CAS/types"
-	"CAS/util"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -40,12 +39,12 @@ func (CourseController) CreateCourse(c *gin.Context) {
 	}
 }
 func (CourseController) GetCourse(c *gin.Context) {
-	if res := util.CheckUserType(c, types.Admin); res == -1 {
-		c.JSON(http.StatusOK, response.GetCourseResponse{
-			Code: types.LoginRequired,
-		})
-		return
-	}
+	// if res := util.CheckUserType(c, types.Admin); res == -1 {
+	// 	c.JSON(http.StatusOK, response.GetCourseResponse{
+	// 		Code: types.LoginRequired,
+	// 	})
+	// 	return
+	// }
 	// else if res == 0 {
 	// 	//非管理员 ????
 	// 	// c.JSON(http.StatusOK, response.GetCourseResponse{

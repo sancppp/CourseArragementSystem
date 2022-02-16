@@ -13,3 +13,6 @@ time="2022-02-16T18:50:33+08:00" level=info msg="| 200 |     240.945µs |   221.
 time="2022-02-16T18:50:34+08:00" level=info msg="| 200 |     131.868µs |   221.206.97.32 | POST | /api/v1/auth/logout |"
 time="2022-02-16T18:50:35+08:00" level=info msg="| 200 |     131.166µs |   221.206.97.32 | POST | /api/v1/auth/logout |"
 time="2022-02-16T18:50:35+08:00" level=info msg="| 200 |     116.166µs |   221.206.97.32 | POST | /api/v1/auth/logout |"
+time="2022-02-16T20:52:29+08:00" level=info msg="| 200 |     10.5988ms |       127.0.0.1 | POST | /api/v1/auth/login |"
+time="2022-02-16T20:52:34+08:00" level=info msg="| 200 |       814.7µs |       127.0.0.1 | POST | /api/v1/auth/logout |"
+time="2022-02-16T20:52:35+08:00" level=info msg="| 200 |       634.9µs |       127.0.0.1 | POST | /api/v1/auth/logout |"

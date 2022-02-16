@@ -13,6 +13,7 @@ type MemberController struct {
 	BaseController
 }
 
+// A: 更新等接口不做要求 创建才有权限判断
 func (MemberController) CreateMember(c *gin.Context) {
 	if res := util.CheckUserType(c, types.Admin); res == -1 {
 		//未登录
@@ -40,12 +41,12 @@ func (MemberController) CreateMember(c *gin.Context) {
 }
 
 func (MemberController) GetMember(c *gin.Context) {
-	if res := util.CheckUserType(c, types.Admin); res == -1 {
-		c.JSON(http.StatusOK, response.GetMemberResponse{
-			Code: types.LoginRequired,
-		})
-		return
-	}
+	// if res := util.CheckUserType(c, types.Admin); res == -1 {
+	// 	c.JSON(http.StatusOK, response.GetMemberResponse{
+	// 		Code: types.LoginRequired,
+	// 	})
+	// 	return
+	// }
 	// else if res == 0 {
 	// 	//非管理员 ????
 	// 	// c.JSON(http.StatusOK, response.GetMemberResponse{
@@ -65,12 +66,12 @@ func (MemberController) GetMember(c *gin.Context) {
 	}
 }
 func (MemberController) GetMemberList(c *gin.Context) {
-	if res := util.CheckUserType(c, types.Admin); res == -1 {
-		c.JSON(http.StatusOK, response.GetMemberListResponse{
-			Code: types.LoginRequired,
-		})
-		return
-	}
+	// if res := util.CheckUserType(c, types.Admin); res == -1 {
+	// 	c.JSON(http.StatusOK, response.GetMemberListResponse{
+	// 		Code: types.LoginRequired,
+	// 	})
+	// 	return
+	// }
 	// else if res == 0 {
 	// 	//非管理员 ????
 	// 	// c.JSON(http.StatusOK, response.GetMemberListResponse{
@@ -91,12 +92,12 @@ func (MemberController) GetMemberList(c *gin.Context) {
 }
 func (MemberController) UpdateMember(c *gin.Context) {
 	//修改nickname的权限检查？
-	if res := util.CheckUserType(c, types.Admin); res == -1 {
-		c.JSON(http.StatusOK, response.UpdateMemberResponse{
-			Code: types.LoginRequired,
-		})
-		return
-	}
+	// if res := util.CheckUserType(c, types.Admin); res == -1 {
+	// 	c.JSON(http.StatusOK, response.UpdateMemberResponse{
+	// 		Code: types.LoginRequired,
+	// 	})
+	// 	return
+	// }
 	// else if res == 0 {
 	// 	//非管理员 ????
 	// 	// c.JSON(http.StatusOK, response.UpdateMemberResponse{
@@ -115,18 +116,18 @@ func (MemberController) UpdateMember(c *gin.Context) {
 	}
 }
 func (MemberController) DeleteMember(c *gin.Context) {
-	if res := util.CheckUserType(c, types.Admin); res == -1 {
-		c.JSON(http.StatusOK, response.DeleteMemberResponse{
-			Code: types.LoginRequired,
-		})
-		return
-	} else if res == 0 {
-		// 非管理员
-		c.JSON(http.StatusOK, response.DeleteMemberResponse{
-			Code: types.PermDenied,
-		})
-		return
-	}
+	// if res := util.CheckUserType(c, types.Admin); res == -1 {
+	// 	c.JSON(http.StatusOK, response.DeleteMemberResponse{
+	// 		Code: types.LoginRequired,
+	// 	})
+	// 	return
+	// } else if res == 0 {
+	// 	// 非管理员
+	// 	c.JSON(http.StatusOK, response.DeleteMemberResponse{
+	// 		Code: types.PermDenied,
+	// 	})
+	// 	return
+	// }
 
 	serv := &response.DeleteMemberRequest{}
 	if err := c.ShouldBind(serv); err == nil {

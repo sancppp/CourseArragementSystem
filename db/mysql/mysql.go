@@ -14,8 +14,8 @@ type Mysql struct {
 //封装mysql，对外提供 MysqlDB.GetConn()接口
 func Default() {
 	temp := &Mysql{}
-	dsn := "root:bytedancecamp@tcp(127.0.0.1:3306)/CourseArragementSystem?charset=utf8mb4&parseTime=True&loc=Local"
-	// dsn := "root:123456@tcp(127.0.0.1:3306)/CourseArragementSystem?charset=utf8mb4&parseTime=True&loc=Local"
+	// dsn := "root:bytedancecamp@tcp(127.0.0.1:3306)/CourseArragementSystem?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:123456@tcp(127.0.0.1:3306)/CourseArragementSystem?charset=utf8mb4&parseTime=True&loc=Local"
 	conn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database,err:" + err.Error())

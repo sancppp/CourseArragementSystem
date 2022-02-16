@@ -31,7 +31,19 @@ func (serv *BindCourseRequest) Bind() (res BindCourseResponse) {
 		res.Code = types.CourseNotExisted
 		return res
 	}
-	teacher, _ := model.GetUser(serv.TeacherID)
+	teacher, err := model.GetUser(serv.TeacherID)
+	if err != nil {
+		//不存在这个人
+		res.Code = types.UserNotExisted
+		return res
+	}
+
+	if teacher.Type != types.Teacher {
+		//不是老师
+		res.Code = types.UnknownError
+		return res
+	}
+
 	temp := &model.Course2Teacher{
 		Course:  &cour,
 		Teacher: &teacher,

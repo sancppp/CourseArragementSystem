@@ -31,9 +31,9 @@ func Default() {
 	defer cancel()
 
 	conf := &redis.Options{
-		Addr:     "127.0.0.1:6379",
-		Password: "bytedancecamp",
-		DB:       0,
+		Addr: "127.0.0.1:6379",
+		// Password: "bytedancecamp",
+		DB: 0,
 	}
 
 	c := redis.NewClient(conf)

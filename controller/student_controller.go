@@ -12,6 +12,8 @@ type StudentController struct {
 	BaseController
 }
 
+//Q1：只根据抢课接口传入的学生ID来进行抢课，不关注当前session是否登录，对吗？
+//A1：是的
 func (StudentController) BookCourse(c *gin.Context) {
 	// if res := util.CheckUserType(c, types.Student); res == -1 {
 	// 	c.JSON(http.StatusOK, response.BookCourseResponse{

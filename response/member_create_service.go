@@ -34,6 +34,19 @@ func (serv *CreateMemberRequest) Create() (res CreateMemberResponse) {
 		res.Code = types.ParamInvalid
 		return res
 	}
+	//username nickname 只包含大小写字母
+	//Q: username需要验证是否只包含大小写字母吗
+	//A: 是的
+	//Q: Nickname 汉字的位数检查不正确,一个中文占三位？
+	//A: Nickname只有大小写字母
+	if !util.CheckWords(serv.Nickname) {
+		res.Code = types.ParamInvalid
+		return res
+	}
+	if !util.CheckWords(serv.Username) {
+		res.Code = types.ParamInvalid
+		return res
+	}
 	if err := util.CheckPassword(serv.Password); !err {
 		res.Code = types.ParamInvalid
 		return res

@@ -19,6 +19,11 @@ type LogoutResponse struct {
 
 func (service *LogoutRequest) Logout(c *gin.Context) (res LogoutResponse) {
 	//todo:重复登出
+	session := sessions.Default(c)
+	if tmp := session.Get("userid"); tmp == nil {
+		res.Code = types.LoginRequired
+		return res
+	}
 	//清除session
 	s := sessions.Default(c)
 	s.Clear()

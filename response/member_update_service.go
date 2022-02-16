@@ -14,7 +14,7 @@ import (
 
 type UpdateMemberRequest struct {
 	UserID   string
-	Nickname string
+	Nickname string `binding:"required,min=4,max=20"`
 }
 
 type UpdateMemberResponse struct {
