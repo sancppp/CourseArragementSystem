@@ -24,10 +24,9 @@ func (service *LogoutRequest) Logout(c *gin.Context) (res LogoutResponse) {
 		res.Code = types.LoginRequired
 		return res
 	}
-	//清除session
-	s := sessions.Default(c)
-	s.Clear()
-	s.Save()
+	//清除sessions
+	session.Clear()
+	session.Save()
 	res.Code = types.OK
 	return res
 }
