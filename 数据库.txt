@@ -1,0 +1,39 @@
+成员  
+mebmer
+	id  自增
+	username  string
+	nickname  string
+	password  string md5
+	type	int  1：管理员 2 学生 3 教师
+
+
+课程
+course
+	id 自增
+	subject  string
+	容量 int
+	剩余 int
+
+course_student
+	id  主键
+	
+	course_id   int 外键
+	student_id int 外键
+	course_name string
+	student_name string
+
+course_teacher
+	id  主键
+	
+	course_id   int外键
+	teacher_id  int外键
+	course_name string
+	teacher_name string
+
+
+
+
+
+
+	
+	
