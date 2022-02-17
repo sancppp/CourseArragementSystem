@@ -2,6 +2,7 @@ package main
 
 import (
 	"CAS/db/mysql"
+	"CAS/db/redis"
 	"CAS/model"
 	"CAS/router"
 
@@ -14,6 +15,7 @@ func main() {
 	mysql.Default() //初始化数据库链接
 	model.Default() //初始化gorm
 	// kernel.Load() //初始化中间件
+	redis.Client()
 	router.RegisterRouter(r) //注册路由
 	err := r.Run(":80")
 	if err != nil {

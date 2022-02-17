@@ -2,9 +2,11 @@ package response
 
 import (
 	"CAS/db/mysql"
+	"CAS/db/redis"
 	"CAS/model"
 	"CAS/types"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -33,7 +35,10 @@ func (serv *UnbindCourseRequest) Unbind() (res UnbindCourseResponse) {
 		res.Code = types.CourseNotBind
 		return res
 	}
+	//删除MySQL中的记录
 	mysql.MysqlDB.GetConn().Delete(&temp)
+	//删除redis中的记录
+	redis.Client().Del(redis.Ctx, fmt.Sprintf("courseteacher%d", temp.CourseID))
 	res.Code = types.OK
 	return res
 }

@@ -31,9 +31,9 @@ func Default() {
 	defer cancel()
 
 	conf := &redis.Options{
-		Addr: "127.0.0.1:6379",
-		// Password: "bytedancecamp",
-		DB: 0,
+		Addr:     "127.0.0.1:6379",
+		Password: "bytedancecamp",
+		DB:       0,
 	}
 
 	c := redis.NewClient(conf)
@@ -57,14 +57,27 @@ func Default() {
 	for _, it := range studentcourse {
 		c.SAdd(Ctx, fmt.Sprintf("studentcourse%d", it.StudentID), fmt.Sprintf("%d", it.CourseID))
 	}
-	//初始化课程，只有绑定了老师的课程才是有效课程
-	var coursesteacher []model.Course2Teacher
-	mysql.MysqlDB.GetConn().Find(&coursesteacher)
-	for _, course := range coursesteacher {
-		tmp, _ := model.GetCourse(course.CourseID)
-		c.Set(Ctx, fmt.Sprintf("coursename%d", course.CourseID), tmp.Subject, redis.KeepTTL)
-		c.Set(Ctx, fmt.Sprintf("courseteacher%d", course.CourseID), course.TeacherID, redis.KeepTTL)
-		c.Set(Ctx, fmt.Sprintf("course%d", course.CourseID), tmp.RemainCap, redis.KeepTTL)
+	// //初始化课程，只有绑定了老师的课程才是有效课程
+	// var coursesteacher []model.Course2Teacher
+	// mysql.MysqlDB.GetConn().Find(&coursesteacher)
+	// for _, course := range coursesteacher {
+	// 	tmp, _ := model.GetCourse(course.CourseID)
+	// 	c.Set(Ctx, fmt.Sprintf("coursename%d", course.CourseID), tmp.Subject, redis.KeepTTL)
+	// 	c.Set(Ctx, fmt.Sprintf("courseteacher%d", course.CourseID), course.TeacherID, redis.KeepTTL)
+	// 	c.Set(Ctx, fmt.Sprintf("course%d", course.CourseID), tmp.RemainCap, redis.KeepTTL)
+	// }
+
+	//所有课程都有效，能被抢
+	var courses []model.Course
+	var c2t model.Course2Teacher
+	mysql.MysqlDB.GetConn().Find(&courses)
+	for _, course := range courses {
+		c.Set(Ctx, fmt.Sprintf("coursename%d", course.ID), course.Subject, redis.KeepTTL)
+		c.Set(Ctx, fmt.Sprintf("course%d", course.ID), course.RemainCap, redis.KeepTTL)
+		if err := mysql.MysqlDB.GetConn().Where("course_id = ?", course.ID).First(&c2t).Error; err == nil {
+			c.Set(Ctx, fmt.Sprintf("courseteacher%d", course.ID), c2t.TeacherID, redis.KeepTTL)
+
+		}
 	}
 	go BookCourse()
 	_connect = &connect{

@@ -2,6 +2,7 @@ package response
 
 import (
 	"CAS/db/mysql"
+	"CAS/db/redis"
 	"CAS/model"
 	"CAS/types"
 	"fmt"
@@ -32,8 +33,11 @@ func (serv *CreateCourseRequest) Createcourse() (res CreateCourseResponse) {
 		res.Code = types.UnknownError
 		return res
 	}
-
+	//写入mysql
 	mysql.MysqlDB.GetConn().Create(&course)
+	//写入redis
+	redis.Client().Set(redis.Ctx, fmt.Sprintf("coursename%d", course.ID), course.Subject, -1)
+	redis.Client().Set(redis.Ctx, fmt.Sprintf("course%d", course.ID), course.RemainCap, -1)
 
 	res.Code = types.OK
 	res.Data.CourseID = fmt.Sprint(course.ID)

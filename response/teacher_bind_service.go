@@ -53,9 +53,7 @@ func (serv *BindCourseRequest) Bind() (res BindCourseResponse) {
 		mysql.MysqlDB.GetConn().Create(&temp)
 
 		//写入redis
-		redis.Client().Set(redis.Ctx, fmt.Sprintf("coursename%d", temp.CourseID), temp.Course.Subject, -1)
 		redis.Client().Set(redis.Ctx, fmt.Sprintf("courseteacher%d", temp.CourseID), temp.TeacherID, -1)
-		redis.Client().Set(redis.Ctx, fmt.Sprintf("course%d", temp.CourseID), temp.Course.RemainCap, -1)
 		res.Code = types.OK
 		return res
 	}
