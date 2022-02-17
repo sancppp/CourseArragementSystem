@@ -12,10 +12,9 @@ import (
 func main() {
 	r := gin.Default()
 
-	mysql.Default() //初始化数据库链接
-	model.Default() //初始化gorm
-	// kernel.Load() //初始化中间件
-	redis.Client()
+	mysql.Default()          //初始化数据库链接
+	model.Default()          //初始化gorm
+	redis.Client()           //初始化redis数据库中数据，方便debug
 	router.RegisterRouter(r) //注册路由
 	err := r.Run(":80")
 	if err != nil {

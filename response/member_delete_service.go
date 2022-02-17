@@ -2,9 +2,11 @@ package response
 
 import (
 	"CAS/db/mysql"
+	"CAS/db/redis"
 	"CAS/model"
 	"CAS/types"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -36,6 +38,10 @@ func (serv *DeleteMemberRequest) Deletemember() (res DeleteMemberResponse) {
 		return res
 	}
 	if err := mysql.MysqlDB.GetConn().Model(&model.Member{}).Where("id = ?", serv.UserID).Update("deleted", 1).Error; err == nil {
+		if member.Type == types.Student {
+			//从redis中删除该学生
+			redis.Client().Del(redis.Ctx, fmt.Sprintf("studentcourse%d", member.ID))
+		}
 		res.Code = types.OK
 		return res
 	}

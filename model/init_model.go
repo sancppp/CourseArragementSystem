@@ -18,6 +18,7 @@ func Default() {
 	if err := mysql.MysqlDB.GetConn().Where("username = 'JudgeAdmin'").First(&Member{}).Error; errors.Is(err, gorm.ErrRecordNotFound) {
 		mysql.MysqlDB.GetConn().Create(&Member{
 			Username: "JudgeAdmin",
+			Nickname: "Admin",
 			Password: fmt.Sprint(md5.Sum([]byte("JudgePassword2022"))),
 			Type:     1,
 		})

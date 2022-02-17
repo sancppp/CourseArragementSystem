@@ -2,6 +2,7 @@ package response
 
 import (
 	"CAS/db/redis"
+	"CAS/model"
 	"CAS/types"
 	"fmt"
 )
@@ -19,7 +20,13 @@ type BookCourseResponse struct {
 
 //todo：如果有时间的话，需要重写
 func (serv *BookCourseRequest) BookCourse() (res BookCourseResponse) {
-	// if redis.Client().TTL(redis.Ctx, fmt.Sprintf("studentcourse%s", serv.StudentID)).Val().String()[:2] == "-2" { // 是否存在该学生
+	//从mysql中判断user是否被删除
+	if tmp, err := model.GetUser(serv.StudentID); err == nil {
+		if tmp.Deleted {
+			res.Code = types.UserHasDeleted
+			return res
+		}
+	}
 	if redis.Client().TTL(redis.Ctx, fmt.Sprintf("studentcourse%s", serv.StudentID)).Val().String()[:2] == "-2" { // 是否存在该学生
 		res.Code = types.StudentNotExisted
 	} else if redis.Client().TTL(redis.Ctx, fmt.Sprintf("course%s", serv.CourseID)).Val().String()[:2] == "-2" { // 是否存在该课程
